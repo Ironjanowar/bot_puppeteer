@@ -2,13 +2,7 @@ defmodule BotPuppeteer do
   import System, only: [cmd: 3]
   import IO.ANSI
 
-  def main(args) do
-    bots =
-      "bots.puppet"
-      |> File.read()
-      |> elem(1)
-      |> String.split("\n", trim: true)
-
+  defp execute_command(args, bots) do
     case args do
       ["reset", "all"] ->
         Enum.each(bots, fn bot ->
@@ -54,6 +48,28 @@ defmodule BotPuppeteer do
         """
 
         IO.puts(help_message)
+    end
+  end
+
+  def main(args) do
+    bot_file = "bots.puppet"
+
+    if File.exists?(bot_file) do
+      bots =
+        bot_file
+        |> File.read()
+        |> elem(1)
+        |> String.split("\n", trim: true)
+
+      execute_command(args, bots)
+    else
+      IO.puts("""
+      #{red()}Error: File 'bots.puppet' does not exist.
+      The format should be a bot directory in each line, for example:
+        bot_1
+        bot_2
+        bot_3#{default_color()}
+      """)
     end
   end
 end
