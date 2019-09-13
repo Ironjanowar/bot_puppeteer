@@ -1,7 +1,7 @@
 # BotPuppeteer
 
 ## Usage
-```shell
+```
 Usage: bot_puppeteer <Options>
 Options:
   reset all - Stops and starts all the bots in the directory
